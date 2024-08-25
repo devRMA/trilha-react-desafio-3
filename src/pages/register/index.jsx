@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MdEmail, MdLock } from "react-icons/md";
+import { MdEmail, MdLock, MdPerson } from "react-icons/md";
 import { Button } from "../../components/Button";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
@@ -13,13 +13,14 @@ import {
     Column,
     TitleLogin,
     SubtitleLogin,
-    EsqueciText,
-    CriarText,
+    JaTenhoContaText,
+    FazerLoginText,
     Row,
     Wrapper,
+    MsgAceitoPoliticas,
 } from "./styles";
 
-const Login = () => {
+const Register = () => {
     const navigate = useNavigate();
 
     const {
@@ -33,22 +34,27 @@ const Login = () => {
 
     const onSubmit = async (formData) => {
         try {
-            const { data } = await api.get(
-                `/users?email=${formData.email}&senha=${formData.senha}`
-            );
+            const response = await api.post("/users", {
+                name: formData.nomecompleto,
+                email: formData.email,
+                senha: formData.senha,
+            });
 
-            if (data.length && data[0].id) {
-                navigate("/feed");
+            if (response.status === 201) {
+                alert("Usuário cadastrado com sucesso!");
+                navigate("/login");
                 return;
             }
 
-            alert("Usuário ou senha inválido");
+            alert("Erro ao cadastrar usuário");
         } catch (e) {
-            alert("Usuário ou senha inválido");
+            alert("Erro ao cadastrar usuário");
         }
     };
 
-    console.log("errors", errors);
+    const handleClickLogin = () => {
+        navigate("/login");
+    };
 
     return (
         <>
@@ -63,11 +69,20 @@ const Login = () => {
                 </Column>
                 <Column>
                     <Wrapper>
-                        <TitleLogin>Faça seu cadastro</TitleLogin>
+                        <TitleLogin>Comece agora grátis</TitleLogin>
                         <SubtitleLogin>
-                            Faça seu login e make the change._
+                            Crie sua conta e make the change._
                         </SubtitleLogin>
                         <form onSubmit={handleSubmit(onSubmit)}>
+                            <Input
+                                placeholder="Nome completo"
+                                leftIcon={<MdPerson />}
+                                name="nomecompleto"
+                                control={control}
+                            />
+                            {errors.nomecompleto && (
+                                <span>Nome completo é obrigatório</span>
+                            )}
                             <Input
                                 placeholder="E-mail"
                                 leftIcon={<MdEmail />}
@@ -82,16 +97,25 @@ const Login = () => {
                                 name="senha"
                                 control={control}
                             />
-                            {errors.senha && <span>Senha é obrigatório</span>}
+                            {errors.senha && <span>Senha é obrigatória</span>}
                             <Button
-                                title="Entrar"
+                                title="Criar minha conta"
                                 variant="secondary"
                                 type="submit"
                             />
                         </form>
                         <Row>
-                            <EsqueciText>Esqueci minha senha</EsqueciText>
-                            <CriarText>Criar Conta</CriarText>
+                            <MsgAceitoPoliticas>
+                                Ao clicar em "criar minha conta grátis", declaro
+                                que aceito as Políticas de Privacidade e os
+                                Termos de Uso da DIO.
+                            </MsgAceitoPoliticas>
+                        </Row>
+                        <Row>
+                            <JaTenhoContaText>Já tenho conta</JaTenhoContaText>
+                            <FazerLoginText onClick={handleClickLogin}>
+                                Fazer Login
+                            </FazerLoginText>
                         </Row>
                     </Wrapper>
                 </Column>
@@ -100,4 +124,4 @@ const Login = () => {
     );
 };
 
-export { Login };
+export { Register };

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.main`
     width: 100%;
@@ -10,11 +10,10 @@ export const Container = styled.main`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-`
-
+`;
 
 export const Title = styled.h2`
-    font-family: 'Open Sans';
+    font-family: "Open Sans";
     font-style: normal;
     font-weight: 700;
     font-size: 32px;
@@ -22,15 +21,15 @@ export const Title = styled.h2`
     margin-bottom: 20px;
     line-height: 44px;
 
-    color: #FFFFFF;
-`
+    color: #ffffff;
+`;
 
 export const TitleHighlight = styled.span`
-    color: #E4105D;;
-`
+    color: #e4105d;
+`;
 
 export const TextContent = styled.p`
-    font-family: 'Open Sans';
+    font-family: "Open Sans";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -39,5 +38,5 @@ export const TextContent = styled.p`
 
     margin-bottom: 20px;
 
-    color: #FFFFFF;
-`
+    color: #ffffff;
+`;
